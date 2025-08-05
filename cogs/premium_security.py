@@ -9,14 +9,14 @@ PREMIUM_JOIN_LINK = "https://discord.gg/ERYMCnhWjG"
 PREMIUM_ACTIVATION_CHANNEL_ID = 1388061112079224832  # Change if needed
 
 PREMIUM_FEATURES = [
-    ("server_rename", "1️⃣"),
-    ("server_icon", "2️⃣"),
-    ("role_rename", "3️⃣"),
-    ("channel_rename", "4️⃣"),
-    ("emoji_delete", "5️⃣"),
-    ("invite_delete", "6️⃣"),
-    ("ghost_ping", "7️⃣"),
-    ("spam", "8️⃣"),
+    ("server_rename", "🏷️ Server Rename"),
+    ("server_icon", "🖼️ Server Icon"),
+    ("role_rename", "👑 Role Rename"),
+    ("channel_rename", "📋 Channel Rename"),
+    ("emoji_delete", "😀 Emoji Delete"),
+    ("invite_delete", "🔗 Invite Delete"),
+    ("ghost_ping", "👻 Ghost Ping"),
+    ("spam", "🚫 Anti Spam"),
 ]
 PREMIUM_LABELS = {
     "server_rename": "Anti Server Rename",
@@ -78,9 +78,9 @@ class PremiumPanelView(discord.ui.View):
     def update_buttons(self):
         self.clear_items()
         features = self.premium_data[str(self.guild_id)]["features"]
-        for key, emoji in PREMIUM_FEATURES:
+        for key, label in PREMIUM_FEATURES:
             btn = discord.ui.Button(
-                label=emoji,
+                label=label,
                 style=discord.ButtonStyle.secondary,
                 custom_id=f"premium_toggle_{key}"
             )
@@ -118,16 +118,16 @@ class PremiumSecurity(commands.Cog):
         data = load_premium()
         features = data[str(guild_id)]["features"]
         lines = []
-        for key, emoji in PREMIUM_FEATURES:
-            state = "on☑️" if features[key] else "off❎"
-            label = PREMIUM_LABELS[key]
-            lines.append(f"{emoji} {label}:\n- {state}")
+        for key, button_label in PREMIUM_FEATURES:
+            state = "Enabled ☑️" if features[key] else "Disabled ❎"
+            full_label = PREMIUM_LABELS[key]
+            lines.append(f"**{button_label}**\n{full_label}: {state}")
         embed = discord.Embed(
-            title="AntiPremium Feature Panel",
+            title="🔒 AntiPremium Feature Panel",
             description="\n\n".join(lines),
             color=discord.Color.purple()
         )
-        embed.set_footer(text="Use buttons below to toggle features. (30s timeout)")
+        embed.set_footer(text="Click the buttons below to toggle features • Panel expires in 30 seconds")
         return embed
 
     @app_commands.command(name="antipremium", description="Open the premium feature panel")

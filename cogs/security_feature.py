@@ -10,7 +10,7 @@ import os
 
 SUPPORT_LINK = "https://discord.gg/ERYMCnhWjG"
 def get_status_emoji(val):
-    return '☑️' if val else '❎'
+    return '🟢 Enabled' if val else '🔴 Disabled'
 
 class SecurityFeature(commands.Cog):
     antinuke_group = app_commands.Group(name="antinuke", description="Enable/disable anti-nuke features")
@@ -109,13 +109,13 @@ class SecurityFeature(commands.Cog):
     def _status_embed(self, guild_id, msg):
         st = self.settings[guild_id]
         status_line = (
-            f"AntiNuke {get_status_emoji(st.get('antinuke', False))} | "
-            f"AntiBotAdd {get_status_emoji(st.get('antibotadd', False))} | "
-            f"AntiRaid {get_status_emoji(st.get('antiraid', False))}"
+            f"🛡️ **AntiNuke:** {get_status_emoji(st.get('antinuke', False))}\n"
+            f"🤖 **AntiBotAdd:** {get_status_emoji(st.get('antibotadd', False))}\n"
+            f"🎭 **AntiRaid:** {get_status_emoji(st.get('antiraid', False))}"
         )
         embed = discord.Embed(
-            title="SecureAura Anti Features Status",
-            description=f"{msg}\n\n{status_line}",
+            title="🔐 SecureAura Anti Features Status",
+            description=f"**{msg}**\n\n{status_line}",
             color=discord.Color.blue()
         )
         view = discord.ui.View()
@@ -134,18 +134,34 @@ class SecurityFeature(commands.Cog):
             adder = guild.owner
 
         embed = discord.Embed(
-            title="AntiNuke Features Enabled ☑️",
+            title="🛡️ SecureAura - Welcome to Enhanced Security!",
             description=(
-                f"Hey, {adder.mention if adder else 'there'}, thanks for using our bot.\n"
-                "SecureAura is an intelligent Discord security bot designed to safeguard your server with real-time protection, automated moderation, and advanced anti-raid features-ensuring a safe and peaceful community.\n\n"
-                "**NOTE:**\n"
-                "- AntiNuke System has been enabled by default, so if you want to add bot or do any activities like channel create/delete, role create/delete, etc. then you need to whitelist yourself or any other user by using `/whitelist add` command otherwise you or bot may get kicked or banned."
+                f"Hello {adder.mention if adder else 'there'}! Thank you for inviting **SecureAura** to your server.\n\n"
+                "**About SecureAura:**\n"
+                "SecureAura is an intelligent Discord security bot designed to safeguard your community with:\n"
+                "• Real-time protection against malicious activities\n"
+                "• Automated moderation and anti-raid systems\n"
+                "• Advanced security features for server protection\n\n"
+                "**🔒 Important Security Information:**\n"
+                "The **AntiNuke System** is automatically enabled to protect your server. Before performing administrative actions such as:\n"
+                "• Adding bots to the server\n"
+                "• Creating or deleting channels/roles\n"
+                "• Making server modifications\n\n"
+                "**Please whitelist yourself and trusted users** using the `/whitelist add` command to avoid being kicked or banned by the security system.\n\n"
+                "**📋 Getting Started:**\n"
+                "• Use `/antinuke` commands to manage protection features\n"
+                "• Use `/whitelist` commands to manage trusted users\n"
+                "• Use `/antipremium` for premium security features (if available)\n\n"
+                "We're here to keep your community safe and secure! 🚀"
             ),
             color=discord.Color.blue(),
             timestamp=datetime.now()
         )
-        view = discord.ui.View()
-        view.add_item(discord.ui.Button(label="Support Server", url=SUPPORT_LINK, style=discord.ButtonStyle.link))
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/1234567890/shield_icon.png")
+        embed.set_footer(text="SecureAura Security System • Your server is now protected", icon_url=self.bot.user.avatar.url if self.bot.user.avatar else None)
+        
+        view = discord.ui.View(timeout=300)
+        view.add_item(discord.ui.Button(label="🔗 Support Server", url=SUPPORT_LINK, style=discord.ButtonStyle.link))
 
         if adder:
             try:
