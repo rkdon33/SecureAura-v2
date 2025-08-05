@@ -14,7 +14,7 @@ class Database:
         try:
             # Replace with your actual MongoDB URI
             mongo_uri = "mongodb+srv://rkdon:R4JK4ND3L@secureaura.7ihzga7.mongodb.net/?retryWrites=true&w=majority&appName=SecureAura"
-            
+
             self.client = MongoClient(mongo_uri)
             self.db = self.client[os.environ.get('MONGODB_DATABASE', 'secureaura')]
 
@@ -91,9 +91,34 @@ class Database:
 
     def get_greet_settings(self, guild_id):
         """Get greet settings for a guild"""
-        collection = self.get_collection('greet_settings')
-        result = collection.find_one({"guild_id": guild_id}, {"_id": 0, "guild_id": 0})
-        return result
+        try:
+            result = self.db.greet_settings.find_one({"guild_id": guild_id})
+            return result["settings"] if result else None
+        except Exception as e:
+            print(f"Error getting greet settings: {e}")
+            return None
+
+    def set_greet_settings(self, guild_id, settings):
+        """Set greet settings for a guild"""
+        try:
+            self.db.greet_settings.update_one(
+                {"guild_id": guild_id},
+                {"$set": {"settings": settings}},
+                upsert=True
+            )
+            return True
+        except Exception as e:
+            print(f"Error setting greet settings: {e}")
+            return False
+
+    def remove_greet_settings(self, guild_id):
+        """Remove greet settings for a guild"""
+        try:
+            self.db.greet_settings.delete_one({"guild_id": guild_id})
+            return True
+        except Exception as e:
+            print(f"Error removing greet settings: {e}")
+            return False
 
     def get_all_greet_settings(self):
         collection = self.get_collection('greet_settings')
