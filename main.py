@@ -18,7 +18,7 @@ bot.log_channels = db.get_all_log_channels()
 
 @bot.event
 async def on_ready():
-    await bot.change_presence(activity=discord.Game(name="v3.0 | bot on small maintenance"))
+    await bot.change_presence(activity=discord.Game(name="v3.0 | ?help"))
     print(f'Logged in as {bot.user} (ID: {bot.user.id})')
     print('------')
     try:
