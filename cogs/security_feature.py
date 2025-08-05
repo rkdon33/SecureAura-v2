@@ -17,7 +17,7 @@ class SecurityFeature(commands.Cog):
     antibotadd_group = app_commands.Group(name="antibotadd", description="Enable/disable anti-bot-add features")
     antiraid_group = app_commands.Group(name="antiraid", description="Enable/disable anti-raid features")
     antiall_group = app_commands.Group(name="antiall", description="Enable/disable all anti features")
-    
+
 
     def __init__(self, bot):
         self.bot = bot
@@ -27,7 +27,7 @@ class SecurityFeature(commands.Cog):
             "antibotadd": True,
             "antiraid": True
         })
-        
+
         self.recent_joins = defaultdict(list)
         self.raid_threshold = 5
         self.raid_interval = 10
@@ -39,14 +39,14 @@ class SecurityFeature(commands.Cog):
         g = interaction.guild_id
         self.settings[g]["antinuke"] = True
         embed = self._status_embed(g, "AntiNuke enabled.")
-        await interaction.response.send_message(embed=embed, ephemeral=True)
+        await interaction.response.send_message(embed=embed, ephemeral=False, delete_after=15)
 
     @antinuke_group.command(name="disable", description="Disable anti-nuke protections")
     async def antinuke_disable(self, interaction: discord.Interaction):
         g = interaction.guild_id
         self.settings[g]["antinuke"] = False
         embed = self._status_embed(g, "AntiNuke disabled.")
-        await interaction.response.send_message(embed=embed, ephemeral=True)
+        await interaction.response.send_message(embed=embed, ephemeral=False, delete_after=15)
 
     # /antibotadd enable/disable
     @antibotadd_group.command(name="enable", description="Enable anti-bot-add protections")
@@ -54,14 +54,14 @@ class SecurityFeature(commands.Cog):
         g = interaction.guild_id
         self.settings[g]["antibotadd"] = True
         embed = self._status_embed(g, "AntiBotAdd enabled.")
-        await interaction.response.send_message(embed=embed, ephemeral=True)
+        await interaction.response.send_message(embed=embed, ephemeral=False, delete_after=15)
 
     @antibotadd_group.command(name="disable", description="Disable anti-bot-add protections")
     async def antibotadd_disable(self, interaction: discord.Interaction):
         g = interaction.guild_id
         self.settings[g]["antibotadd"] = False
         embed = self._status_embed(g, "AntiBotAdd disabled.")
-        await interaction.response.send_message(embed=embed, ephemeral=True)
+        await interaction.response.send_message(embed=embed, ephemeral=False, delete_after=15)
 
     # /antiraid enable/disable
     @antiraid_group.command(name="enable", description="Enable anti-raid protections")
@@ -69,14 +69,14 @@ class SecurityFeature(commands.Cog):
         g = interaction.guild_id
         self.settings[g]["antiraid"] = True
         embed = self._status_embed(g, "AntiRaid enabled.")
-        await interaction.response.send_message(embed=embed, ephemeral=True)
+        await interaction.response.send_message(embed=embed, ephemeral=False, delete_after=15)
 
     @antiraid_group.command(name="disable", description="Disable anti-raid protections")
     async def antiraid_disable(self, interaction: discord.Interaction):
         g = interaction.guild_id
         self.settings[g]["antiraid"] = False
         embed = self._status_embed(g, "AntiRaid disabled.")
-        await interaction.response.send_message(embed=embed, ephemeral=True)
+        await interaction.response.send_message(embed=embed, ephemeral=False, delete_after=15)
 
     # /antiall enable/disable
     @antiall_group.command(name="enable", description="Enable all anti features")
@@ -88,7 +88,7 @@ class SecurityFeature(commands.Cog):
             "antiraid": True
         }
         embed = self._status_embed(g, "All anti features enabled.")
-        await interaction.response.send_message(embed=embed, ephemeral=True)
+        await interaction.response.send_message(embed=embed, ephemeral=False, delete_after=15)
 
     @antiall_group.command(name="disable", description="Disable all anti features")
     async def antiall_disable(self, interaction: discord.Interaction):
@@ -99,9 +99,9 @@ class SecurityFeature(commands.Cog):
             "antiraid": False
         }
         embed = self._status_embed(g, "All anti features disabled.")
-        await interaction.response.send_message(embed=embed, ephemeral=True)
+        await interaction.response.send_message(embed=embed, ephemeral=False, delete_after=15)
 
-    
+
 
     def _is_whitelisted(self, guild_id, user_id):
         return is_whitelisted(guild_id, user_id)[guild_id]

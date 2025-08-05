@@ -9,14 +9,14 @@ PREMIUM_JOIN_LINK = "https://discord.gg/ERYMCnhWjG"
 PREMIUM_ACTIVATION_CHANNEL_ID = 1388061112079224832  # Change if needed
 
 PREMIUM_FEATURES = [
-    ("server_rename", "🇦"),
-    ("server_icon", "🇧"),
-    ("role_rename", "🇨"),
-    ("channel_rename", "🇩"),
-    ("emoji_delete", "🇪"),
-    ("invite_delete", "🇫"),
-    ("ghost_ping", "🇬"),
-    ("spam", "🇭"),
+    ("server_rename", "1️⃣"),
+    ("server_icon", "2️⃣"),
+    ("role_rename", "3️⃣"),
+    ("channel_rename", "4️⃣"),
+    ("emoji_delete", "5️⃣"),
+    ("invite_delete", "6️⃣"),
+    ("ghost_ping", "7️⃣"),
+    ("spam", "8️⃣"),
 ]
 PREMIUM_LABELS = {
     "server_rename": "Anti Server Rename",
@@ -81,7 +81,7 @@ class PremiumPanelView(discord.ui.View):
         for key, emoji in PREMIUM_FEATURES:
             btn = discord.ui.Button(
                 label=emoji,
-                style=discord.ButtonStyle.success if features[key] else discord.ButtonStyle.secondary,
+                style=discord.ButtonStyle.secondary,
                 custom_id=f"premium_toggle_{key}"
             )
             btn.callback = self.make_toggle_callback(key)
@@ -141,7 +141,7 @@ class PremiumSecurity(commands.Cog):
             )
             view = discord.ui.View()
             view.add_item(discord.ui.Button(label="JOIN", url=PREMIUM_JOIN_LINK, style=discord.ButtonStyle.link))
-            await interaction.response.send_message(embed=embed, view=view, ephemeral=True)
+            await interaction.response.send_message(embed=embed, view=view, ephemeral=False, delete_after=25)
             return
         # Only allow admins of this guild to use the premium panel
         if not interaction.user.guild_permissions.administrator:
@@ -152,7 +152,7 @@ class PremiumSecurity(commands.Cog):
             return
         view = PremiumPanelView(self, guild_id)
         embed = self.premium_panel_embed(guild_id)
-        await interaction.response.send_message(embed=embed, view=view, ephemeral=True)
+        await interaction.response.send_message(embed=embed, view=view, ephemeral=False, delete_after=60)
         sent_msg = await interaction.original_response()
         view.msg = sent_msg
 

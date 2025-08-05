@@ -11,7 +11,7 @@ class HelpCog(commands.Cog):
             title="SecureAura Bot Commands",
             description=(
                 "**Moderation Commands:**\n"
-                
+
                 "`/kick` or `?kick`\n"
                 "- To kick member from server\n"
                 "`/ban` or `?ban`\n"
@@ -50,7 +50,7 @@ class HelpCog(commands.Cog):
             style=discord.ButtonStyle.link
         )
         view.add_item(button)
-        await ctx.reply(embed=embed, view=view, ephemeral=True if hasattr(ctx, "interaction") else False)
+        await ctx.reply(embed=embed, view=view)
 
 async def setup(bot):
     await bot.add_cog(HelpCog(bot))

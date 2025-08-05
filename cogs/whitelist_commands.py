@@ -1,4 +1,3 @@
-
 import discord
 from discord.ext import commands
 from discord import app_commands
@@ -23,8 +22,7 @@ class WhitelistCommands(commands.Cog):
         # Check if user has administrator permissions
         if not interaction.user.guild_permissions.administrator:
             await interaction.response.send_message(
-                "❌ You need Administrator permissions to manage whitelist.", 
-                ephemeral=True
+                "❌ You need Administrator permissions to manage whitelist."
             )
             return
 
@@ -33,18 +31,16 @@ class WhitelistCommands(commands.Cog):
         if action == "add":
             if not user:
                 await interaction.response.send_message(
-                    "❌ Please specify a user to add to the whitelist.", 
-                    ephemeral=True
+                    "❌ Please specify a user to add to the whitelist."
                 )
                 return
-            
+
             if is_whitelisted(guild_id, user.id):
                 await interaction.response.send_message(
-                    f"❌ {user.mention} is already whitelisted.", 
-                    ephemeral=True
+                    f"❌ {user.mention} is already whitelisted."
                 )
                 return
-            
+
             add_to_whitelist(guild_id, user.id)
             embed = discord.Embed(
                 title="✅ User Added to Whitelist",
@@ -56,18 +52,16 @@ class WhitelistCommands(commands.Cog):
         elif action == "remove":
             if not user:
                 await interaction.response.send_message(
-                    "❌ Please specify a user to remove from the whitelist.", 
-                    ephemeral=True
+                    "❌ Please specify a user to remove from the whitelist."
                 )
                 return
-            
+
             if not is_whitelisted(guild_id, user.id):
                 await interaction.response.send_message(
-                    f"❌ {user.mention} is not in the whitelist.", 
-                    ephemeral=True
+                    f"❌ {user.mention} is not in the whitelist."
                 )
                 return
-            
+
             remove_from_whitelist(guild_id, user.id)
             embed = discord.Embed(
                 title="✅ User Removed from Whitelist",
@@ -92,7 +86,7 @@ class WhitelistCommands(commands.Cog):
                         user_mentions.append(f"• {user_obj.mention}")
                     else:
                         user_mentions.append(f"• <@{user_id}> (User left)")
-                
+
                 embed = discord.Embed(
                     title="📋 Whitelist",
                     description=f"**Whitelisted Users ({len(whitelist)}):**\n" + "\n".join(user_mentions),
@@ -103,39 +97,36 @@ class WhitelistCommands(commands.Cog):
         elif action == "check":
             if not user:
                 await interaction.response.send_message(
-                    "❌ Please specify a user to check.", 
-                    ephemeral=True
+                    "❌ Please specify a user to check."
                 )
                 return
-            
+
             is_whitelisted_user = is_whitelisted(guild_id, user.id)
             status = "✅ Whitelisted" if is_whitelisted_user else "❌ Not Whitelisted"
             color = discord.Color.green() if is_whitelisted_user else discord.Color.red()
-            
+
             embed = discord.Embed(
                 title="🔍 Whitelist Status",
                 description=f"{user.mention} is **{status.split(' ')[1].lower()}**.",
                 color=color
             )
-            await interaction.response.send_message(embed=embed, ephemeral=True)
+            await interaction.response.send_message(embed=embed, ephemeral=False, delete_after=20)
 
     @app_commands.command(name="whitelistclear", description="Clear all users from whitelist")
     async def whitelistclear(self, interaction: discord.Interaction):
         # Check if user has administrator permissions
         if not interaction.user.guild_permissions.administrator:
             await interaction.response.send_message(
-                "❌ You need Administrator permissions to manage whitelist.", 
-                ephemeral=True
+                "❌ You need Administrator permissions to manage whitelist."
             )
             return
 
         guild_id = interaction.guild_id
         whitelist = get_whitelist(guild_id)
-        
+
         if not whitelist:
             await interaction.response.send_message(
-                "❌ Whitelist is already empty.", 
-                ephemeral=True
+                "❌ Whitelist is already empty."
             )
             return
 
@@ -157,7 +148,7 @@ class ConfirmClearView(discord.ui.View):
     async def confirm_clear(self, interaction: discord.Interaction, button: discord.ui.Button):
         from .whitelist_utils import save_whitelist
         save_whitelist(self.guild_id, [])
-        
+
         embed = discord.Embed(
             title="✅ Whitelist Cleared",
             description="All users have been removed from the whitelist.",

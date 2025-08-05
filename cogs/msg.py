@@ -10,9 +10,9 @@ class Msg(commands.Cog):
     async def msg(self, ctx, channel: discord.TextChannel, *, message: str):
         try:
             await channel.send(message)
-            await ctx.send(f"Sent message to {channel.mention}.", ephemeral=True)
+            await ctx.send(f"✅ Message sent to {channel.mention}", delete_after=3)
         except Exception as e:
-            await ctx.send(f"Failed to send message: {e}")
+            await ctx.send(f"❌ Failed to send message: {e}", delete_after=5)
 
 async def setup(bot):
     await bot.add_cog(Msg(bot))
