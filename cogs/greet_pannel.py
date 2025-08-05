@@ -98,25 +98,25 @@ class ConfirmDeleteView(discord.ui.View):
             return False
         return True
 
-    @discord.ui.button(label='✅ Confirm Delete', style=discord.ButtonStyle.danger)
+    @discord.ui.button(label='Confirm Delete', style=discord.ButtonStyle.danger)
     async def confirm_delete(self, interaction: discord.Interaction, button: discord.ui.Button):
         db.remove_greet_settings(str(interaction.guild.id))
         embed = discord.Embed(
-            title="🗑️ Welcome Settings Deleted",
-            description=f"✅ **Success!** Welcome message settings have been permanently removed by {interaction.user.mention}.",
+            title="<a:Verified:1402341882352111709> Welcome Settings Deleted",
+            description=f"Welcome message settings have been permanently removed by {interaction.user.mention}.",
             color=0x27ae60
         )
-        embed.set_footer(text="All configuration data has been cleared", icon_url=interaction.guild.icon.url if interaction.guild.icon else None)
+        embed.set_footer(text="All configuration data has been cleared")
         await interaction.response.edit_message(embed=embed, view=None)
 
-    @discord.ui.button(label='❌ Cancel', style=discord.ButtonStyle.secondary)
+    @discord.ui.button(label='Cancel', style=discord.ButtonStyle.secondary)
     async def cancel_delete(self, interaction: discord.Interaction, button: discord.ui.Button):
         embed = discord.Embed(
-            title="❌ Action Cancelled",
-            description="**Operation cancelled** - Welcome settings deletion was aborted and no changes were made.",
+            title="<:Unverified:1402342155489640521> Action Cancelled",
+            description="Operation cancelled - Welcome settings deletion was aborted and no changes were made.",
             color=0x3498db
         )
-        embed.set_footer(text="Your settings remain unchanged", icon_url=interaction.guild.icon.url if interaction.guild.icon else None)
+        embed.set_footer(text="Your settings remain unchanged")
         await interaction.response.edit_message(embed=embed, view=None)
 
 class ConfirmEditView(discord.ui.View):
@@ -136,7 +136,7 @@ class ConfirmEditView(discord.ui.View):
             return False
         return True
 
-    @discord.ui.button(label='✅ Proceed', style=discord.ButtonStyle.primary)
+    @discord.ui.button(label='Proceed', style=discord.ButtonStyle.primary)
     async def confirm_edit(self, interaction: discord.Interaction, button: discord.ui.Button):
         if self.edit_type == 'text':
             modal = WelcomeEditModal(self.current_data)
@@ -144,14 +144,14 @@ class ConfirmEditView(discord.ui.View):
             modal = ImageEditModal(self.current_data)
         await interaction.response.send_modal(modal)
 
-    @discord.ui.button(label='❌ Cancel', style=discord.ButtonStyle.secondary)
+    @discord.ui.button(label='Cancel', style=discord.ButtonStyle.secondary)
     async def cancel_edit(self, interaction: discord.Interaction, button: discord.ui.Button):
         embed = discord.Embed(
-            title="❌ Edit Cancelled",
-            description="**Operation cancelled** - Welcome message editing was aborted and no changes were made.",
+            title="<:Unverified:1402342155489640521> Edit Cancelled",
+            description="Operation cancelled - Welcome message editing was aborted and no changes were made.",
             color=0x3498db
         )
-        embed.set_footer(text="Your current settings remain active", icon_url=interaction.guild.icon.url if interaction.guild.icon else None)
+        embed.set_footer(text="Your current settings remain active")
         await interaction.response.edit_message(embed=embed, view=None)
 
 class WelcomeSetupModal(discord.ui.Modal, title='🎉 Welcome Message Setup'):
@@ -399,7 +399,7 @@ class ContinueSetupView(discord.ui.View):
             return False
         return True
 
-    @discord.ui.button(label='Continue Setup', style=discord.ButtonStyle.primary, emoji='⚙️')
+    @discord.ui.button(label='Continue Setup', style=discord.ButtonStyle.primary)
     async def continue_setup(self, interaction: discord.Interaction, button: discord.ui.Button):
         await interaction.response.send_modal(self.modal)
 
@@ -636,12 +636,12 @@ class WelcomeSetupView(discord.ui.View):
             return False
         return True
 
-    @discord.ui.button(label='Normal Message', style=discord.ButtonStyle.secondary, emoji='📝')
+    @discord.ui.button(label='Normal Message', style=discord.ButtonStyle.secondary, emoji='<:94598supporthexagon:1402349436931408135>')
     async def normal_message(self, interaction: discord.Interaction, button: discord.ui.Button):
         modal = WelcomeSetupModal('normal')
         await interaction.response.send_modal(modal)
 
-    @discord.ui.button(label='Embed Message', style=discord.ButtonStyle.primary, emoji='📋')
+    @discord.ui.button(label='Embed Message', style=discord.ButtonStyle.primary, emoji='<:18275viphexagon:1402349510385991711>')
     async def embed_message(self, interaction: discord.Interaction, button: discord.ui.Button):
         modal = WelcomeSetupModal('embed')
         await interaction.response.send_modal(modal)
@@ -662,7 +662,7 @@ class WelcomeManageView(discord.ui.View):
             return False
         return True
 
-    @discord.ui.button(label='Edit Text', style=discord.ButtonStyle.primary, emoji='✏️')
+    @discord.ui.button(label='Edit Text', style=discord.ButtonStyle.primary, emoji='<:Red_Owner:1402348812416319660>')
     async def edit_welcome(self, interaction: discord.Interaction, button: discord.ui.Button):
         embed = discord.Embed(
             title="⚠️ Confirm Edit - Text Settings",
@@ -673,11 +673,11 @@ class WelcomeManageView(discord.ui.View):
         view = ConfirmEditView(self.user_id, 'text', self.current_data)
         await interaction.response.send_message(embed=embed, view=view)
 
-    @discord.ui.button(label='Edit Images & Footer', style=discord.ButtonStyle.secondary, emoji='🖼️')
+    @discord.ui.button(label='Edit Images & Footer', style=discord.ButtonStyle.secondary, emoji='<:IconRoleYellow:1402349104134098994>')
     async def setup_images(self, interaction: discord.Interaction, button: discord.ui.Button):
         if self.current_data['type'] != 'embed':
             embed = discord.Embed(
-                title="❌ Feature Not Available",
+                title="Feature Not Available",
                 description="**Images and footer customization** are only available for embed messages.\n\n**Tip:** Create a new embed message to access these features.",
                 color=0xe74c3c
             )
@@ -694,7 +694,7 @@ class WelcomeManageView(discord.ui.View):
         view = ConfirmEditView(self.user_id, 'images', self.current_data)
         await interaction.response.send_message(embed=embed, view=view)
 
-    @discord.ui.button(label='Test Message', style=discord.ButtonStyle.success, emoji='🧪')
+    @discord.ui.button(label='Test Message', style=discord.ButtonStyle.success, emoji='<:98800developerhexagon:1402349319754878996>')
     async def test_message(self, interaction: discord.Interaction, button: discord.ui.Button):
         try:
             await interaction.response.defer()
@@ -703,23 +703,23 @@ class WelcomeManageView(discord.ui.View):
             await self.send_welcome_message(interaction.user, interaction.channel, self.current_data)
 
             embed = discord.Embed(
-                title="🧪 Test Message Sent",
-                description=f"**Success!** Test welcome message sent by {interaction.user.mention} in this channel.\n\n**Note:** This is exactly how new members will see your welcome message.",
+                title="<a:Verified:1402341882352111709> Test Message Sent",
+                description=f"Test welcome message sent by {interaction.user.mention} in this channel.\n\nThis is exactly how new members will see your welcome message.",
                 color=0x27ae60
             )
-            embed.set_footer(text="Check the message above to see how it looks!", icon_url=interaction.guild.icon.url if interaction.guild.icon else None)
+            embed.set_footer(text="Check the message above to see how it looks!")
             await interaction.followup.send(embed=embed)
 
         except Exception as e:
             embed = discord.Embed(
-                title="❌ Test Failed",
-                description=f"**Error testing message:** {str(e)}\n\nThis might be due to missing permissions or invalid image URLs.",
+                title="<:Unverified:1402342155489640521> Test Failed",
+                description=f"Error testing message: {str(e)}\n\nThis might be due to missing permissions or invalid image URLs.",
                 color=0xe74c3c
             )
             embed.set_footer(text="Please check your settings and try again")
             await interaction.followup.send(embed=embed)
 
-    @discord.ui.button(label='Delete', style=discord.ButtonStyle.danger, emoji='🗑️')
+    @discord.ui.button(label='Delete Config', style=discord.ButtonStyle.danger, emoji='<:14605delete:1402349214381375618>')
     async def delete_welcome(self, interaction: discord.Interaction, button: discord.ui.Button):
         embed = discord.Embed(
             title="⚠️ Confirm Deletion - PERMANENT ACTION",
@@ -809,57 +809,57 @@ class GreetCog(commands.Cog):
 
         if existing_data:
             channel = interaction.guild.get_channel(existing_data['channel_id'])
-            channel_text = channel.mention if channel else "❌ Unknown Channel"
+            channel_text = channel.mention if channel else "<:Unverified:1402342155489640521> Unknown Channel"
 
             if existing_data['type'] == 'normal':
                 msg_preview = existing_data['message'][:100] + ("..." if len(existing_data['message']) > 100 else "")
-                desc = f"**📝 Type:** Normal Message\n**📍 Channel:** {channel_text}\n**💬 Message Preview:** {msg_preview}"
+                desc = f"**Type:** Normal Message\n**Channel:** {channel_text}\n**Message Preview:** {msg_preview}"
             else:
                 title_preview = existing_data['title'][:50] + ("..." if len(existing_data['title']) > 50 else "")
-                desc = f"**📋 Type:** Embed Message\n**📍 Channel:** {channel_text}\n**📑 Title Preview:** {title_preview}"
+                desc = f"**Type:** Embed Message\n**Channel:** {channel_text}\n**Title Preview:** {title_preview}"
 
                 # Add detailed image and footer info
-                desc += "\n\n**🎨 Visual Settings:**"
+                desc += "\n\n**Visual Settings:**"
                 if existing_data.get('use_user_avatar', True):
-                    desc += "\n• **👤 Thumbnail:** User Avatar"
+                    desc += "\n• **Thumbnail:** <a:Verified:1402341882352111709> User Avatar"
                 elif existing_data.get('thumbnail_url'):
-                    desc += "\n• **🖼️ Thumbnail:** Custom Image"
+                    desc += "\n• **Thumbnail:** <a:Verified:1402341882352111709> Custom Image"
                 else:
-                    desc += "\n• **🖼️ Thumbnail:** None"
+                    desc += "\n• **Thumbnail:** <:Unverified:1402342155489640521> None"
 
                 if existing_data.get('image_url'):
-                    desc += "\n• **🎨 Bottom Image:** ✅ Enabled"
+                    desc += "\n• **Bottom Image:** <a:Verified:1402341882352111709> Enabled"
                 else:
-                    desc += "\n• **🎨 Bottom Image:** ❌ None"
+                    desc += "\n• **Bottom Image:** <:Unverified:1402342155489640521> None"
 
                 if existing_data.get('footer_text'):
-                    desc += f"\n• **📝 Footer:** 🎯 Custom - {existing_data['footer_text'][:30]}..."
+                    desc += f"\n• **Footer:** <a:Verified:1402341882352111709> Custom - {existing_data['footer_text'][:30]}..."
                 elif existing_data.get('auto_footer', True):
-                    desc += "\n• **📝 Footer:** 🔄 Auto-generated"
+                    desc += "\n• **Footer:** <a:Verified:1402341882352111709> Auto-generated"
                 else:
-                    desc += "\n• **📝 Footer:** ❌ None"
+                    desc += "\n• **Footer:** <:Unverified:1402342155489640521> None"
 
             embed = discord.Embed(
-                title="🔧 Current Welcome Configuration",
+                title="<a:Verified:1402341882352111709> Current Welcome Configuration",
                 description=desc,
                 color=0x3498db
             )
-            embed.set_footer(text="Use the buttons below to manage your welcome message", icon_url=interaction.guild.icon.url if interaction.guild.icon else None)
+            embed.set_footer(text="Use the buttons below to manage your welcome message")
 
             view = WelcomeManageView(interaction.user.id, existing_data)
             await interaction.response.send_message(embed=embed, view=view, ephemeral=True)
         else:
             embed = discord.Embed(
-                title="🎉 Welcome Message Setup",
-                description="**Choose your welcome message style:**\n\n📝 **Normal Message**\n• Simple text-based welcome\n• Quick and easy setup\n• Lightweight and fast\n\n📋 **Embed Message**\n• Rich visual experience\n• Full customization options\n• Images, colors, and advanced formatting\n• User avatars and custom thumbnails\n• Professional appearance",
+                title="<a:Verified:1402341882352111709> Welcome Message Setup",
+                description="**Choose your welcome message style:**\n\n**Normal Message**\n• Simple text-based welcome\n• Quick and easy setup\n• Lightweight and fast\n\n**Embed Message**\n• Rich visual experience\n• Full customization options\n• Images, colors, and advanced formatting\n• User avatars and custom thumbnails\n• Professional appearance",
                 color=0x3498db
             )
             embed.add_field(
-                name="🎯 Recommended",
+                name="Recommended",
                 value="**Embed Message** for the best visual impact and member engagement!",
                 inline=False
             )
-            embed.set_footer(text="Select an option below to get started", icon_url=interaction.guild.icon.url if interaction.guild.icon else None)
+            embed.set_footer(text="Select an option below to get started")
 
             view = WelcomeSetupView(interaction.user.id)
             await interaction.response.send_message(embed=embed, view=view, ephemeral=True)

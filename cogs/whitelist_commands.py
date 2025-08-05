@@ -22,7 +22,7 @@ class WhitelistCommands(commands.Cog):
         # Check if user has administrator permissions
         if not interaction.user.guild_permissions.administrator:
             await interaction.response.send_message(
-                "❌ You need Administrator permissions to manage whitelist."
+                "<:Unverified:1402342155489640521> You need Administrator permissions to manage whitelist."
             )
             return
 
@@ -117,7 +117,7 @@ class WhitelistCommands(commands.Cog):
         # Check if user has administrator permissions
         if not interaction.user.guild_permissions.administrator:
             await interaction.response.send_message(
-                "❌ You need Administrator permissions to manage whitelist."
+                "<:Unverified:1402342155489640521> You need Administrator permissions to manage whitelist."
             )
             return
 

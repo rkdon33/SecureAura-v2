@@ -9,14 +9,14 @@ PREMIUM_JOIN_LINK = "https://discord.gg/ERYMCnhWjG"
 PREMIUM_ACTIVATION_CHANNEL_ID = 1388061112079224832  # Change if needed
 
 PREMIUM_FEATURES = [
-    ("server_rename", "🏷️ Server Rename"),
-    ("server_icon", "🖼️ Server Icon"),
-    ("role_rename", "👑 Role Rename"),
-    ("channel_rename", "📋 Channel Rename"),
-    ("emoji_delete", "😀 Emoji Delete"),
-    ("invite_delete", "🔗 Invite Delete"),
-    ("ghost_ping", "👻 Ghost Ping"),
-    ("spam", "🚫 Anti Spam"),
+    ("server_rename", "Server Rename"),
+    ("server_icon", "Server Icon"),
+    ("role_rename", "Role Rename"),
+    ("channel_rename", "Channel Rename"),
+    ("emoji_delete", "Emoji Delete"),
+    ("invite_delete", "Invite Delete"),
+    ("ghost_ping", "Ghost Ping"),
+    ("spam", "Anti Spam"),
 ]
 PREMIUM_LABELS = {
     "server_rename": "Anti Server Rename",
@@ -119,15 +119,15 @@ class PremiumSecurity(commands.Cog):
         features = data[str(guild_id)]["features"]
         lines = []
         for key, button_label in PREMIUM_FEATURES:
-            state = "Enabled ☑️" if features[key] else "Disabled ❎"
+            state = "<a:Verified:1402341882352111709> Enabled" if features[key] else "<:Unverified:1402342155489640521> Disabled"
             full_label = PREMIUM_LABELS[key]
-            lines.append(f"**{button_label}**\n{full_label}: {state}")
+            lines.append(f"**{full_label}:** {state}")
         embed = discord.Embed(
-            title="🔒 AntiPremium Feature Panel",
-            description="\n\n".join(lines),
+            title="<a:Verified:1402341882352111709> Premium Feature Panel",
+            description="\n".join(lines),
             color=discord.Color.purple()
         )
-        embed.set_footer(text="Click the buttons below to toggle features • Panel expires in 30 seconds")
+        embed.set_footer(text="Click buttons to toggle features - Panel expires in 30 seconds")
         return embed
 
     @app_commands.command(name="antipremium", description="Open the premium feature panel")
@@ -135,8 +135,8 @@ class PremiumSecurity(commands.Cog):
         guild_id = interaction.guild_id
         if not is_premium(guild_id):
             embed = discord.Embed(
-                title="Premium Required",
-                description="This feature is only available to premium servers. Join our premium server to activate premium!",
+                title="<:Unverified:1402342155489640521> Premium Required",
+                description="This feature is only available to premium servers. Join our premium server to activate premium",
                 color=discord.Color.red()
             )
             view = discord.ui.View()
@@ -183,20 +183,20 @@ class PremiumSecurity(commands.Cog):
             await ctx.send(f"Error: {e}")
 
         embed = discord.Embed(
-            description=f"<a:premium:1388054301842214922>**Premium Activated**<a:premium:1388054301842214922>\n\n"
-                        f"``Server Name:`` **{server.name if server else guild_id}**\n"
-                        f"``Duration:`` **{duration}**\n"
-                        f"``Activated By:`` <@{activated_by.id}>\n"
-                        f"``Premium Features:``\n"
-                        f">>> ** - Anti Server Rename\n"
-                        f"- Anti Server Icon Change\n"
-                        f"- Anti Role Rename\n"
-                        f"- Anti Channel Rename\n"
-                        f"- Anti Emoji Delete\n"
-                        f"- Anti Invite Delete\n"
-                        f"- Anti Ghost Ping\n"
-                        f"- Anti Spam**\n"
-                        f"**Note:**\nUse (`/antipremium`) to setup premium features.",
+            title="<a:Verified:1402341882352111709> Premium Activated",
+            description=f"**Server Name:** {server.name if server else guild_id}\n"
+                        f"**Duration:** {duration}\n"
+                        f"**Activated By:** <@{activated_by.id}>\n\n"
+                        f"**Premium Features:**\n"
+                        f"• Anti Server Rename\n"
+                        f"• Anti Server Icon Change\n"
+                        f"• Anti Role Rename\n"
+                        f"• Anti Channel Rename\n"
+                        f"• Anti Emoji Delete\n"
+                        f"• Anti Invite Delete\n"
+                        f"• Anti Ghost Ping\n"
+                        f"• Anti Spam\n\n"
+                        f"**Note:** Use `/antipremium` to setup premium features",
             color=discord.Color.gold()
         )
 
@@ -361,7 +361,7 @@ class PremiumSecurity(commands.Cog):
             desc += f"detected for triggering `{action_name}` ({punishment})."
 
         embed = discord.Embed(
-            title="Premium Security Triggered",
+            title="<:Unverified:1402342155489640521> Premium Security Triggered",
             description=desc,
             color=discord.Color.red() if (kicked or timedout) else discord.Color.orange()
         )

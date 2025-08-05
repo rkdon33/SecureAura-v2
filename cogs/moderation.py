@@ -11,9 +11,9 @@ class Moderation(commands.Cog):
     async def kick(self, ctx, member: discord.Member, *, reason: str = None):
         try:
             await member.kick(reason=reason)
-            await ctx.send(f"{member.mention} has been kicked.")
+            await ctx.send(f"<:broken_pickaxe:1402342321953177671> {member.mention} has been kicked.")
         except Exception as e:
-            await ctx.send(f"Failed to kick: {e}")
+            await ctx.send(f"<:Unverified:1402342155489640521> Failed to kick: {e}")
 
     # Ban
     @commands.hybrid_command(name="ban", with_app_command=True, description="Ban a member")
@@ -21,9 +21,9 @@ class Moderation(commands.Cog):
     async def ban(self, ctx, member: discord.Member, *, reason: str = None):
         try:
             await member.ban(reason=reason)
-            await ctx.send(f"{member.mention} has been banned.")
+            await ctx.send(f"<a:Verified:1402341882352111709> {member.mention} has been banned.")
         except Exception as e:
-            await ctx.send(f"Failed to ban: {e}")
+            await ctx.send(f"<:Unverified:1402342155489640521> Failed to ban: {e}")
 
     # Mute
     @commands.hybrid_command(name="mute", with_app_command=True, description="Mute a member (timeout)")
@@ -32,9 +32,9 @@ class Moderation(commands.Cog):
         # duration in minutes
         try:
             await member.timeout(discord.utils.utcnow() + discord.timedelta(minutes=duration), reason=reason)
-            await ctx.send(f"{member.mention} has been muted for {duration} minutes.")
+            await ctx.send(f"<a:Verified:1402341882352111709> {member.mention} has been muted for {duration} minutes.")
         except Exception as e:
-            await ctx.send(f"Failed to mute: {e}")
+            await ctx.send(f"<:Unverified:1402342155489640521> Failed to mute: {e}")
 
     # Clear messages
     @commands.hybrid_command(name="clear", with_app_command=True, description="Clear messages")
@@ -42,9 +42,9 @@ class Moderation(commands.Cog):
     async def clear(self, ctx, amount: int = 5):
         try:
             await ctx.channel.purge(limit=amount+1)
-            await ctx.send(f"Cleared {amount} messages.", delete_after=5)
+            await ctx.send(f"<a:Verified:1402341882352111709> Cleared {amount} messages.", delete_after=5)
         except Exception as e:
-            await ctx.send(f"Failed to clear messages: {e}")
+            await ctx.send(f"<:Unverified:1402342155489640521> Failed to clear messages: {e}")
 
 async def setup(bot):
     await bot.add_cog(Moderation(bot))

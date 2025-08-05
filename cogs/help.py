@@ -46,6 +46,7 @@ class HelpCog(commands.Cog):
         view = discord.ui.View()
         button = discord.ui.Button(
             label="Support Server",
+            emoji="<:Home:1402346986182676491>",
             url="https://discord.gg/ERYMCnhWjG",
             style=discord.ButtonStyle.link
         )

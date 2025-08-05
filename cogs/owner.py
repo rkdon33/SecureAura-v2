@@ -18,7 +18,7 @@ class Owner(commands.Cog):
             
             # Create embed with cyan color
             embed = discord.Embed(
-                title="🎯 Bot Owner Information",
+                title="<:Owner_Founder:1402341594601881703> Bot Owner Information",
                 color=0x00FFFF  # Cyan color
             )
             
@@ -65,7 +65,7 @@ class Owner(commands.Cog):
         except discord.NotFound:
             # Fallback if owner can't be fetched
             embed = discord.Embed(
-                title="🎯 Bot Owner Information",
+                title="<:Owner_Founder:1402341594601881703> Bot Owner Information",
                 color=0x00FFFF
             )
             

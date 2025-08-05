@@ -10,7 +10,7 @@ import os
 
 SUPPORT_LINK = "https://discord.gg/ERYMCnhWjG"
 def get_status_emoji(val):
-    return '🟢 Enabled' if val else '🔴 Disabled'
+    return '<a:Verified:1402341882352111709> Enabled' if val else '<:Unverified:1402342155489640521> Disabled'
 
 class SecurityFeature(commands.Cog):
     antinuke_group = app_commands.Group(name="antinuke", description="Enable/disable anti-nuke features")
@@ -109,18 +109,18 @@ class SecurityFeature(commands.Cog):
     def _status_embed(self, guild_id, msg):
         st = self.settings[guild_id]
         status_line = (
-            f"🛡️ **AntiNuke:** {get_status_emoji(st.get('antinuke', False))}\n"
-            f"🤖 **AntiBotAdd:** {get_status_emoji(st.get('antibotadd', False))}\n"
-            f"🎭 **AntiRaid:** {get_status_emoji(st.get('antiraid', False))}"
+            f"**AntiNuke:** {get_status_emoji(st.get('antinuke', False))}\n"
+            f"**AntiBotAdd:** {get_status_emoji(st.get('antibotadd', False))}\n"
+            f"**AntiRaid:** {get_status_emoji(st.get('antiraid', False))}"
         )
         embed = discord.Embed(
-            title="🔐 SecureAura Anti Features Status",
-            description=f"**{msg}**\n\n{status_line}",
+            title="<a:Verified:1402341882352111709> Anti Features Status",
+            description=f"{msg}\n\n{status_line}",
             color=discord.Color.blue()
         )
         view = discord.ui.View()
         view.add_item(discord.ui.Button(label="Support Server", url=SUPPORT_LINK, style=discord.ButtonStyle.link))
-        embed.set_footer(text="Use the slash commands to manage features.")
+        embed.set_footer(text="Use slash commands to manage features")
         return embed
 
     # ------------ GUILD JOIN WELCOME ------------
@@ -134,7 +134,7 @@ class SecurityFeature(commands.Cog):
             adder = guild.owner
 
         embed = discord.Embed(
-            title="🛡️ SecureAura - Welcome to Enhanced Security!",
+            title="<a:Verified:1402341882352111709> Welcome to Enhanced Security",
             description=(
                 f"Hello {adder.mention if adder else 'there'}! Thank you for inviting **SecureAura** to your server.\n\n"
                 "**About SecureAura:**\n"
@@ -142,26 +142,25 @@ class SecurityFeature(commands.Cog):
                 "• Real-time protection against malicious activities\n"
                 "• Automated moderation and anti-raid systems\n"
                 "• Advanced security features for server protection\n\n"
-                "**🔒 Important Security Information:**\n"
+                "**Important Security Information:**\n"
                 "The **AntiNuke System** is automatically enabled to protect your server. Before performing administrative actions such as:\n"
                 "• Adding bots to the server\n"
                 "• Creating or deleting channels/roles\n"
                 "• Making server modifications\n\n"
                 "**Please whitelist yourself and trusted users** using the `/whitelist add` command to avoid being kicked or banned by the security system.\n\n"
-                "**📋 Getting Started:**\n"
+                "**Getting Started:**\n"
                 "• Use `/antinuke` commands to manage protection features\n"
                 "• Use `/whitelist` commands to manage trusted users\n"
                 "• Use `/antipremium` for premium security features (if available)\n\n"
-                "We're here to keep your community safe and secure! 🚀"
+                "We're here to keep your community safe and secure"
             ),
             color=discord.Color.blue(),
             timestamp=datetime.now()
         )
-        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/1234567890/shield_icon.png")
-        embed.set_footer(text="SecureAura Security System • Your server is now protected", icon_url=self.bot.user.avatar.url if self.bot.user.avatar else None)
+        embed.set_footer(text="SecureAura Security System - Your server is now protected", icon_url=self.bot.user.avatar.url if self.bot.user.avatar else None)
         
         view = discord.ui.View(timeout=300)
-        view.add_item(discord.ui.Button(label="🔗 Support Server", url=SUPPORT_LINK, style=discord.ButtonStyle.link))
+        view.add_item(discord.ui.Button(label="Support Server", url=SUPPORT_LINK, style=discord.ButtonStyle.link))
 
         if adder:
             try:
@@ -217,7 +216,7 @@ class SecurityFeature(commands.Cog):
         self.warn_counts[key] += 1
 
         embed = discord.Embed(
-            title="Channel Security Alert",
+            title="<:Warning:1402342240357187615> Channel Security Alert",
             description=f"{user.mention} tried to {action} a channel: {getattr(channel, 'mention', channel.name)}",
             color=discord.Color.orange()
         )
@@ -260,7 +259,7 @@ class SecurityFeature(commands.Cog):
         self.warn_counts[key] += 1
 
         embed = discord.Embed(
-            title="Role Security Alert",
+            title="<:Warning:1402342240357187615> Role Security Alert",
             description=f"{user.mention} tried to {action} a role: {getattr(role, 'name', '')}",
             color=discord.Color.orange()
         )
