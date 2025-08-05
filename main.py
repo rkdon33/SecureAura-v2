@@ -36,7 +36,8 @@ initial_extensions = [
     'cogs.invite_log',
     'cogs.premium_security',
     'cogs.greet_pannel',
-    'cogs.help'
+    'cogs.help',
+    'cogs.owner'
 ]
 
 async def load_extensions():
