@@ -38,7 +38,14 @@ class HelpCog(commands.Cog):
                 "`/greettest` or `?greettest`\n"
                 "- To check how welcome message looks like\n"
                 "`/msg`\n"
-                "- To send message using bot"
+                "- To send message using bot\n\n"
+                "**Games Commands:**\n"
+                "`/tictactoe` or `?tictactoe`\n"
+                "- Play Tic Tac Toe against bot or other users\n"
+                "`/tictactoelb` or `?tictactoelb`\n"
+                "- View Tic Tac Toe leaderboard\n"
+                "`/mytictactoe` or `?mytictactoe`\n"
+                "- View your Tic Tac Toe statistics"
             ),
             color=discord.Color.blue()
         )

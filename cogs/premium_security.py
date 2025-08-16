@@ -317,6 +317,8 @@ class PremiumSecurity(commands.Cog):
                 del self.bot.last_ghost_ping[message.id]
 
     async def _punish_premium_action(self, guild, action_name, user_id=None, timeout_minutes=None, log=False, action=None):
+        from .whitelist_utils import is_whitelisted
+        
         member = None
         try:
             if user_id:
@@ -329,6 +331,18 @@ class PremiumSecurity(commands.Cog):
                         break
         except Exception:
             pass
+
+        # Check if user is whitelisted - if so, don't punish
+        if member and is_whitelisted(guild.id, member.id):
+            embed = discord.Embed(
+                title="<:Verified:1402341882352111709> Premium Security Alert",
+                description=f"{member.mention} triggered `{action_name}` but is whitelisted - no action taken.",
+                color=discord.Color.blue()
+            )
+            log_channel = await get_or_create_premium_log_channel(guild)
+            if log_channel:
+                await log_channel.send(embed=embed)
+            return
 
         kicked = False
         timedout = False
