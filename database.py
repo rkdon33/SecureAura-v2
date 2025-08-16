@@ -124,5 +124,72 @@ class Database:
         collection = self.get_collection('greet_settings')
         return {doc['guild_id']: doc for doc in collection.find()}
 
+    # Update channels methods
+    def get_update_channel(self, guild_id):
+        """Get update channel ID for a guild"""
+        collection = self.get_collection('update_channels')
+        doc = collection.find_one({"guild_id": str(guild_id)})
+        return doc['channel_id'] if doc else None
+
+    def save_update_channel(self, guild_id, channel_id):
+        """Save update channel ID for a guild"""
+        collection = self.get_collection('update_channels')
+        collection.update_one(
+            {"guild_id": str(guild_id)},
+            {"$set": {"channel_id": channel_id, "updated_at": datetime.utcnow()}},
+            upsert=True
+        )
+
+    def remove_update_channel(self, guild_id):
+        """Remove update channel record for a guild"""
+        collection = self.get_collection('update_channels')
+        collection.delete_one({"guild_id": str(guild_id)})
+
+    def get_all_update_channels(self):
+        """Get all update channels from database"""
+        collection = self.get_collection('update_channels')
+        return list(collection.find({}, {"_id": 0}))
+
+    # Tic-tac-toe statistics methods
+    def get_tictactoe_stats(self, user_id):
+        """Get tic-tac-toe statistics for a user"""
+        collection = self.get_collection('tictactoe_stats')
+        doc = collection.find_one({"user_id": str(user_id)})
+        if doc:
+            return {
+                'wins': doc.get('wins', 0),
+                'draws': doc.get('draws', 0),
+                'losses': doc.get('losses', 0),
+                'total_games': doc.get('total_games', 0)
+            }
+        return {'wins': 0, 'draws': 0, 'losses': 0, 'total_games': 0}
+
+    def update_tictactoe_stats(self, user_id, result):
+        """Update tic-tac-toe statistics for a user
+        result can be 'win', 'draw', or 'loss'
+        """
+        collection = self.get_collection('tictactoe_stats')
+        stats = self.get_tictactoe_stats(user_id)
+        
+        stats[f'{result}s'] += 1
+        stats['total_games'] += 1
+        
+        collection.update_one(
+            {"user_id": str(user_id)},
+            {"$set": {
+                "wins": stats['wins'],
+                "draws": stats['draws'],
+                "losses": stats['losses'],
+                "total_games": stats['total_games'],
+                "updated_at": datetime.utcnow()
+            }},
+            upsert=True
+        )
+
+    def get_tictactoe_leaderboard(self, limit=10):
+        """Get top players by wins"""
+        collection = self.get_collection('tictactoe_stats')
+        return list(collection.find({}, {"_id": 0}).sort("wins", -1).limit(limit))
+
 # Global database instance
 db = Database()
